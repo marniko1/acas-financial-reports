@@ -24,7 +24,7 @@
 @push('scripts')
 <script>
 $(function() {
-    $('#donators-table').DataTable({
+    var t = $('#donators-table').DataTable({
         processing: true,
         serverSide: true,
         ajax: '{!! route('donators') !!}',
