@@ -7,7 +7,7 @@
     <table class="table table-hover table-striped px-0" id="donators-table" style="width: 100%">
         <caption>List of donators</caption>
         <thead>
-            <tr>
+            <tr style="white-space: nowrap;">
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>City</th>
