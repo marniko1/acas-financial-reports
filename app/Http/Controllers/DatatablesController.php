@@ -13,37 +13,57 @@ class DatatablesController extends Controller
 	 *
 	 * @return \Illuminate\View\View
 	 */
+
+
+    /*=====================================================================================
+    =            Method Show Donators View And Returns Data On DataTables Ajax            =
+    =====================================================================================*/
+    
+    
 	public function index()
 	{
 
+
+// 		$hostname_mysqlcon = "localhost";
+// $database_mysqlcon = "financial_reports";
+// $username_mysqlcon = "root";
+// $password_mysqlcon = "";
+// $db = mysqli_connect($hostname_mysqlcon, $username_mysqlcon, $password_mysqlcon) or trigger_error(mysql_error(),E_USER_ERROR);
+// //mysqli_query($db,'utf8');
+// mysqli_set_charset($db, "utf8");
+// mysqli_select_db($db, $database_mysqlcon );
+
+// $sql = "select persons.first_name, persons.last_name, cities.name as city, mon.amount as monetary, YEAR(reports.date) as report_year from persons 
+// left join cities 
+// on cities.id = persons.residence_city_id 
+// join personal_donations as mon 
+// on persons.id = mon.person_id  
+// left join reports 
+// on mon.report_id = reports.id
+// where and mon.donation_type_id = 1";
+
+// $sql = "select persons.first_name, persons.last_name, cities.name as city, mon.amount as monetary, nonmon.amount as nonmonetary, YEAR(reports.date) as report_year 
+// 		from personal_donations as pd 
+// 		left join persons as p 
+// 		on p.id = pd.person_id 
+// 		left join cities as c 
+// 		on c.id = p.residence_city_id 
+	
+// ";
+
+// $res = $db->query($sql)->fetch_all(MYSQLI_ASSOC);
+// dd($res);die;
+		/*----------  Checks if request is AJAX  ----------*/
+		
 		if (request()->ajax()) {
 
-	        return DataTables::of(
-	        					Person::leftJoin('cities', 'cities.id', '=', 'persons.residence_city_id')
-	        					->leftJoin('personal_donations as mon', function ($join) {
-	        						$join->on('persons.id', '=', 'mon.person_id')
-	        							 ->where('mon.donation_type_id', '=', 1);
-	        					})
-	        					->leftJoin('personal_donations as nonmon', function ($join) {
-	        						$join->on('persons.id', '=', 'nonmon.person_id')
-	        							 ->where('nonmon.donation_type_id', '=', 2);
-	        					})
-	        					->leftJoin('reports', function ($join) {
-	        						$join->on('mon.report_id', '=', 'reports.id');
-	        					})
-	        					->leftJoin('political_subjects', 'political_subjects.id', '=', 'reports.political_subject_id')
-	        					->leftJoin('reports_elections', 'reports.id', '=', 'reports_elections.report_id')
-	        					->leftJoin('elections', 'elections.id', '=', 'reports_elections.election_id')
-	        					->leftJoin('elections_levels', 'elections_levels.id', '=', 'elections.election_level_id')
-	        					->leftJoin('elections_types', 'elections_types.id', '=', 'elections.election_type_id')
-	        					->select('persons.first_name', 'persons.last_name', 'cities.name as city', 'mon.amount as monetary', 'nonmon.amount as nonmonetary', 'political_subjects.name as political_subject', 'elections.title as election', 'elections_levels.level as election_level', 'elections_types.type as election_type')
-
-
-
-	    			)->make(true);
+	        return DataTables::of(Person::getAllDonatorsForDT())->make(true);
 	    }
 
 
 	    return view('donators');
 	}
+    
+    /*=====  End of Method Show Donators View And Returns Data On DataTables Ajax  ======*/
+    
 }
