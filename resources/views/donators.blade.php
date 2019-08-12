@@ -28,6 +28,10 @@
 <script>
 $(function() {
     $('#donators-table').DataTable({
+        "language": {
+            "decimal": ",",
+            "thousands": "."
+        },
         dom: '<"col-12"B<"col-6 float-left px-0"l><"col-6 float-right px-0"f>rtip>',
         buttons: {
             dom: {
@@ -59,15 +63,15 @@ $(function() {
             { data: 'first_name', name: 'first_name' },
             { data: 'last_name', name: 'last_name' },
             { data: 'city', name: 'city' },
-            { data: 'monetary', name: 'monetary' },
-            { data: 'nonmonetary', name: 'nonmonetary' },
+            { data: 'monetary', name: 'monetary', render: $.fn.dataTable.render.number( '.', ',', 2,) },
+            { data: 'nonmonetary', name: 'nonmonetary', render: $.fn.dataTable.render.number( '.', ',', 2)  },
             { data: 'report_year', name: 'report_year' },
             { data: 'political_subject', name: 'political_subject' },
             { data: 'election', name: 'election' },
             { data: 'election_year', name: 'election_year' },
             { data: 'election_level', name: 'election_level' },
             { data: 'election_type', name: 'election_type' },
-        ]
+        ],
     });
 });
 </script>
