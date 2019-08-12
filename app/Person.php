@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 class Person extends Model
 {
@@ -33,7 +34,7 @@ class Person extends Model
 	        					->leftJoin('elections', 'elections.id', '=', 'reports_elections.election_id')
 	        					->leftJoin('elections_levels', 'elections_levels.id', '=', 'elections.election_level_id')
 	        					->leftJoin('elections_types', 'elections_types.id', '=', 'elections.election_type_id')
-	        					->selectRaw('persons.first_name, persons.last_name, cities.name as city, mon.amount as monetary, nonmon.amount as nonmonetary, YEAR(reports.date) as report_year, political_subjects.name as political_subject, elections.title as election, YEAR(elections.date_of_calling) as election_year, elections_levels.level as election_level, elections_types.type as election_type')
+	        					->selectRaw('persons.first_name as first_name, persons.last_name as last_name, cities.name as city, mon.amount as monetary, nonmon.amount as nonmonetary, YEAR(reports.date) as report_year, political_subjects.name as political_subject, elections.title as election, YEAR(elections.date_of_calling) as election_year, elections_levels.level as election_level, elections_types.type as election_type')
 	        					->whereNotNull('mon.report_id');
 
 
@@ -42,7 +43,7 @@ class Person extends Model
 	    /*----------  Using union is faster then using join in this case  ----------*/
 	    
 	    
-	    return	self::leftJoin('cities', 'cities.id', '=', 'persons.residence_city_id')
+	    $union = self::leftJoin('cities', 'cities.id', '=', 'persons.residence_city_id')
 	        					->leftJoin('personal_donations as mon', function ($join) {
 	        						$join->on('persons.id', '=', 'mon.person_id')
 	        							 ->where('mon.donation_type_id', '=', 1);
@@ -59,11 +60,16 @@ class Person extends Model
 	        					->leftJoin('elections', 'elections.id', '=', 'reports_elections.election_id')
 	        					->leftJoin('elections_levels', 'elections_levels.id', '=', 'elections.election_level_id')
 	        					->leftJoin('elections_types', 'elections_types.id', '=', 'elections.election_type_id')
-	        					->selectRaw('persons.first_name, persons.last_name, cities.name as city, mon.amount as monetary, nonmon.amount as nonmonetary, YEAR(reports.date) as report_year, political_subjects.name as political_subject, elections.title as election, YEAR(elections.date_of_calling) as election_year, elections_levels.level as election_level, elections_types.type as election_type')
+	        					->selectRaw('persons.first_name as first_name, persons.last_name as last_name, cities.name as city, mon.amount as monetary, nonmon.amount as nonmonetary, YEAR(reports.date) as report_year, political_subjects.name as political_subject, elections.title as election, YEAR(elections.date_of_calling) as election_year, elections_levels.level as election_level, elections_types.type as election_type')
 	        					->whereNull('mon.report_id')
 	        					->unionAll($monetary)
 	        					->orderBy('first_name')
 	        					->orderBy('last_name');
+
+	    return DB::table(DB::raw("({$union->toSql()}) as x"))
+	    			->mergeBindings($monetary->getQuery())
+	    			->mergeBindings($union->getQuery())
+	    			->select(['first_name', 'last_name', 'city', 'monetary', 'nonmonetary', 'report_year', 'political_subject', 'election', 'election_year', 'election_level', 'election_type']);
 
     }
 	

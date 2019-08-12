@@ -58,15 +58,15 @@ $(function() {
         columns: [
             { data: 'first_name', name: 'first_name' },
             { data: 'last_name', name: 'last_name' },
-            { data: 'city', name: 'cities.name' },
-            { data: 'monetary', name: 'mon.amount' },
-            { data: 'nonmonetary', name: 'nonmon.amount' },
-            { data: 'report_year', name: 'reports.date' },
-            { data: 'political_subject', name: 'political_subjects.name' },
-            { data: 'election', name: 'elections.title' },
-            { data: 'election_year', name: 'elections.date_of_calling' },
-            { data: 'election_level', name: 'elections_levels.level' },
-            { data: 'election_type', name: 'elections_types.type' },
+            { data: 'city', name: 'city' },
+            { data: 'monetary', name: 'monetary' },
+            { data: 'nonmonetary', name: 'nonmonetary' },
+            { data: 'report_year', name: 'report_year' },
+            { data: 'political_subject', name: 'political_subject' },
+            { data: 'election', name: 'election' },
+            { data: 'election_year', name: 'election_year' },
+            { data: 'election_level', name: 'election_level' },
+            { data: 'election_type', name: 'election_type' },
         ]
     });
 });
