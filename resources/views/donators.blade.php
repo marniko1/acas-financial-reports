@@ -4,7 +4,7 @@
 
 
 @section('content')
-    <table class="table table-sm table-hover table-striped px-0" id="donators-table" style="width: 100%">
+    <table class="table table-sm p-0 display" id="donators-table" style="width: 100%">
         <caption>List of donators</caption>
         <thead>
             <tr style="white-space: nowrap;">
@@ -27,12 +27,12 @@
 @push('scripts')
 <script>
 $(function() {
-    $('#donators-table').DataTable({
+    var table = $('#donators-table').DataTable({
         "language": {
             "decimal": ",",
             "thousands": "."
         },
-        dom: '<"col-12"B<"col-6 float-left px-0"l><"col-6 float-right px-0"f>rtip>',
+        dom: '<"col-12"B<"toggle-wrapper col-12"><"col-6 float-left px-0"l><"col-6 float-right px-0"f>rtip>',
         buttons: {
             dom: {
                 container: {
@@ -40,21 +40,26 @@ $(function() {
                 }
             },
             buttons: [
-                { extend: 'copy', className: 'btn btn-info' },
-                { extend: 'csv', className: 'btn btn-success' },
-                { extend: 'excel', className: 'btn btn-success' },
-                { extend: 'pdf', className: 'btn btn-danger' },
-                { extend: 'print', className: 'btn btn-secondary' },
+                { 
+                    extend: 'copyHtml5', className: 'btn btn-info', text: '<i class="fa fa-files-o"></i>', titleAttr: 'Copy', exportOptions: { columns: ':visible' } 
+                },
+                { 
+                    extend: 'csvHtml5', className: 'btn btn-success', text: '<i class="fa fa-file-text-o"></i>', titleAttr: 'CSV', exportOptions: { columns: ':visible' }  
+                },
+                { 
+                    extend: 'excelHtml5', className: 'btn btn-success', text: '<i class="fa fa-file-excel-o"></i>', titleAttr: 'Excel', exportOptions: { columns: ':visible' }  
+                },
+                { 
+                    extend: 'pdfHtml5', className: 'btn btn-danger', text: '<i class="fa fa-file-pdf-o"></i>', titleAttr: 'PDF', exportOptions: { columns: ':visible' }  
+                },
+                { 
+                    extend: 'print', className: 'btn btn-secondary', text: '<i class="fa fa-print" aria-hidden="true"></i>', titleAttr: 'Print', exportOptions: { columns: ':visible' }  
+                },
             ],
         },
         lengthMenu: [
-            // [ 10, 25, 50, -1 ],
             [ 10, 25, 50, 100 ],
             [ '10 rows', '25 rows', '50 rows', '100 rows' ]
-        ],
-        columnDefs: [
-            // { className: "red", targets: "_all" },
-            // {  className: "red", targets: 1 }
         ],
         processing: true,
         serverSide: true,
