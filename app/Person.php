@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace AcasReports;
 
 use Illuminate\Database\Eloquent\Model;
 use DB;

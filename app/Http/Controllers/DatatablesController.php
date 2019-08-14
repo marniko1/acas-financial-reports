@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace AcasReports\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Person;
+use AcasReports\Person;
 use DataTables;
 
 class DatatablesController extends Controller

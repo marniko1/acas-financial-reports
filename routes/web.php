@@ -11,4 +11,18 @@
 |
 */
 
+// no email verification
+Auth::routes();
+
+// after adding, email verification
+// Auth::routes(['verify' => true]);
+
+
 Route::get('/', [ 'as' => 'donators', 'uses' => 'DatatablesController@index']);
+
+Route::group(['middleware' => 'auth'], function() {
+
+	Route::get('/home', 'HomeController@index')->name('home');
+
+});
+
