@@ -35,7 +35,6 @@
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <!-- DataTables Buttons -->
 <script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
 
 <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.flash.min.js"></script>
 <script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
@@ -52,12 +51,14 @@ $(function() {
             "decimal": ",",
             "thousands": "."
         },
-        select: true,
+        select: {
+            style: 'multi'
+        },
         dom: '<"col-12"B<"toggle-wrapper col-12"><"col-6 float-left px-0"l><"col-6 float-right px-0"f>rtip>',
         buttons: {
             dom: {
                 container: {
-                    className: 'col-12 mb-5'
+                    className: 'jumbotron col-12 mb-5'
                 }
             },
             buttons: [
@@ -74,8 +75,32 @@ $(function() {
                     extend: 'pdfHtml5', className: 'btn btn-danger', text: '<i class="fa fa-file-pdf-o"></i>', titleAttr: 'PDF', exportOptions: { columns: ':visible' }  
                 },
                 { 
-                    extend: 'print', className: 'btn btn-secondary', text: '<i class="fa fa-print" aria-hidden="true"></i>', titleAttr: 'Print', exportOptions: { columns: ':visible' }  
-                }
+                    extend: 'print',
+                    className: 'btn btn-secondary',
+                    text: '<i class="fa fa-print"></i>',
+                    titleAttr: 'Print',
+                    exportOptions: { 
+                        columns: ':visible', 
+                        rows: function (idx, data, node) {
+                            var dt = new $.fn.dataTable.Api('#example' );
+                            var selected = dt.rows( { selected: true } ).indexes().toArray();
+                           
+                            if( selected.length === 0 || $.inArray(idx, selected) !== -1)
+                              return true;
+                      
+
+                            return false;
+                        }
+                    }  
+                },
+                { 
+                    extend: 'selectNone',
+                    className: 'btn btn-primary ml-5'
+                },
+                { 
+                    extend: 'colvis',
+                    className: 'btn btn-primary ml-1'
+                },
             ],
         },
         lengthMenu: [
@@ -99,15 +124,6 @@ $(function() {
             { data: 'election_type', name: 'election_type' },
         ],
     });
-    $('#donators-table tbody').on( 'click', 'tr', function () {
-        if ( $(this).hasClass('selected') ) {
-            $(this).removeClass('selected');
-        }
-        else {
-            table.$('tr.selected').removeClass('selected');
-            $(this).addClass('selected');
-        }
-    } );
 });
 </script>
 @endpush
