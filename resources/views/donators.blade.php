@@ -58,25 +58,24 @@ $(function() {
         buttons: {
             dom: {
                 container: {
-                    className: 'jumbotron col-12 mb-5'
+                    className: 'col-12 mb-5 bg-info py-4 rounded'
                 }
             },
             buttons: [
                 { 
-                    extend: 'copyHtml5', className: 'btn btn-info', text: '<i class="fa fa-files-o"></i>', titleAttr: 'Copy', exportOptions: { columns: ':visible' } 
+                    extend: 'copyHtml5', text: '<i class="fa fa-files-o"></i>', titleAttr: 'Copy', exportOptions: { columns: ':visible' } 
                 },
                 { 
-                    extend: 'csvHtml5', className: 'btn btn-success', text: '<i class="fa fa-file-text-o"></i>', titleAttr: 'CSV', exportOptions: { columns: ':visible' }  
+                    extend: 'csvHtml5', className: 'text-success', text: '<i class="fa fa-file-text-o"></i>', titleAttr: 'CSV', exportOptions: { columns: ':visible' }  
                 },
                 { 
-                    extend: 'excelHtml5', className: 'btn btn-success', text: '<i class="fa fa-file-excel-o"></i>', titleAttr: 'Excel', exportOptions: { columns: ':visible' }  
+                    extend: 'excelHtml5', className: 'text-success', text: '<i class="fa fa-file-excel-o"></i>', titleAttr: 'Excel', exportOptions: { columns: ':visible' }  
                 },
                 { 
-                    extend: 'pdfHtml5', className: 'btn btn-danger', text: '<i class="fa fa-file-pdf-o"></i>', titleAttr: 'PDF', exportOptions: { columns: ':visible' }  
+                    extend: 'pdfHtml5', className: 'text-danger', text: '<i class="fa fa-file-pdf-o"></i>', titleAttr: 'PDF', exportOptions: { columns: ':visible' }  
                 },
                 { 
                     extend: 'print',
-                    className: 'btn btn-secondary',
                     text: '<i class="fa fa-print"></i>',
                     titleAttr: 'Print',
                     exportOptions: { 
@@ -95,11 +94,11 @@ $(function() {
                 },
                 { 
                     extend: 'selectNone',
-                    className: 'btn btn-primary ml-5'
+                    className: 'ml-5'
                 },
                 { 
                     extend: 'colvis',
-                    className: 'btn btn-primary ml-1'
+                    className: 'ml-1'
                 },
             ],
         },
