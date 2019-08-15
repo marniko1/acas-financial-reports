@@ -4,13 +4,19 @@
 
 
 @section('content')
+
     <div class="container-fluid py-4">
                 <div class="row">
+
+    {{-- <div class="search-wrapper">
+        <input type="text" placeholder="Search...">
+        <div class="search"></div>
+    </div> --}}
                     <div class="table-wrapper col-12 mt-5">
-                        <table class="table table-sm p-0 table-hover display" id="donators-table" style="width: 100%">
+                        <table id="donators-table" class="table table-sm p-0 table-hover font-s display nowrap" width="100%">
                             <caption>List of donators</caption>
                             <thead>
-                                <tr style="white-space: nowrap;">
+                                <tr>
                                     <th>First Name</th>
                                     <th>Last Name</th>
                                     <th>City</th>
@@ -24,6 +30,19 @@
                                     <th>Election Type</th>
                                 </tr>
                             </thead>
+                            <tfoot>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>City</th>
+                                <th>Monetary</th>
+                                <th>Non-Monetary</th>
+                                <th>Report Year</th>
+                                <th>Political Subject</th>
+                                <th>Election</th>
+                                <th>Election Year</th>
+                                <th>Election Level</th>
+                                <th>Election Type</th>
+                            </tfoot>
                         </table>
                     </div>
             </div>
@@ -36,6 +55,8 @@
 <!-- DataTables Buttons -->
 <script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
 
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<script type="text/javascript" language="javascript" src="https://cdn.datatables.net/fixedheader/3.1.5/js/dataTables.fixedHeader.min.js"></script>
 <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.flash.min.js"></script>
 <script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 <script type="text/javascript" language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
@@ -45,20 +66,24 @@
 <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.colVis.min.js"></script>
 <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/select/1.3.0/js/dataTables.select.min.js"></script>
 <script>
-$(function() {
+$(document).ready(function() {
     var table = $('#donators-table').DataTable({
+        responsive: true,
+        fixedHeader: true,
         "language": {
-            "decimal": ",",
-            "thousands": "."
+            decimal: ",",
+            thousands: ".",
+            searchPlaceholder: "Search records",
+            search: "",
         },
         select: {
             style: 'multi'
         },
-        dom: '<"col-12"B<"toggle-wrapper col-12"><"col-6 float-left px-0"l><"col-6 float-right px-0"f>rtip>',
+        dom: '<"col-12 mx-0 row"<"col-12 mb-5 bg-info row py-4 rounded mx-0 font-weight-bold"B<"col-lg-3 float-right px-0"<"search-wrapper">>><"small col-12  mb-5" i<"float-right"p>>rt<"small col-12" i<"col-6 float-right"p>>>',
         buttons: {
             dom: {
                 container: {
-                    className: 'col-12 mb-5 bg-info py-4 rounded'
+                    className: 'col-lg-9 p-0'
                 }
             },
             buttons: [
@@ -93,12 +118,16 @@ $(function() {
                     }  
                 },
                 { 
+                    extend: 'pageLength',
+                    className: 'ml-1 ml-md-5 font-weight-bold'
+                },
+                { 
                     extend: 'selectNone',
-                    className: 'ml-5'
+                    className: 'ml-md-5 font-weight-bold'
                 },
                 { 
                     extend: 'colvis',
-                    className: 'ml-1'
+                    className: 'ml-md-1 font-weight-bold'
                 },
             ],
         },
@@ -121,7 +150,11 @@ $(function() {
             { data: 'election_year', name: 'election_year' },
             { data: 'election_level', name: 'election_level' },
             { data: 'election_type', name: 'election_type' },
-        ],
+        ]
+    });
+    $("div.search-wrapper").html('<input type="search" id="search-input" placeholder="Search..." aria-controls="donators-table"><div class="search"></div>');
+    $('#search-input').keyup(function(){
+        table.search($(this).val()).draw() ;
     });
 });
 </script>
