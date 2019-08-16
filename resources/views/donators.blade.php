@@ -70,20 +70,21 @@ $(document).ready(function() {
     var table = $('#donators-table').DataTable({
         responsive: true,
         fixedHeader: true,
-        "language": {
+        language: {
             decimal: ",",
             thousands: ".",
             searchPlaceholder: "Search records",
             search: "",
+            processing: '<i class="fa fa-spinner fa-spin fa-3x fa-fw text-primary"></i><span class="sr-only">Loading...</span> '
         },
         select: {
             style: 'multi'
         },
-        dom: '<"col-12 mx-0 row"<"col-12 mb-5 bg-info row py-4 rounded mx-0 font-weight-bold"B<"col-lg-3 float-right px-0"<"search-wrapper">>><"small col-12  mb-5" i<"float-right"p>>rt<"small col-12" i<"col-6 float-right"p>>>',
+        dom: '<"col-12 mx-0 row"<"col-12 mb-5 gradient-bg info row py-4 rounded mx-0 font-weight-bold"B<"col-md-3 float-right px-0"<"search-wrapper float-right nav-item">>><"small col-12  mb-5" i<"float-right"p>>rt<"small col-12" i<"col-6 float-right"p>>>',
         buttons: {
             dom: {
                 container: {
-                    className: 'col-lg-9 p-0'
+                    className: 'col-md-9 p-0'
                 }
             },
             buttons: [
@@ -119,15 +120,15 @@ $(document).ready(function() {
                 },
                 { 
                     extend: 'pageLength',
-                    className: 'ml-1 ml-md-5 font-weight-bold'
+                    className: 'ml-lg-5 font-weight-bold'
                 },
                 { 
                     extend: 'selectNone',
-                    className: 'ml-md-5 font-weight-bold'
+                    className: 'ml-lg-5 font-weight-bold'
                 },
                 { 
                     extend: 'colvis',
-                    className: 'ml-md-1 font-weight-bold'
+                    className: 'ml-lg-1 font-weight-bold'
                 },
             ],
         },
@@ -152,9 +153,12 @@ $(document).ready(function() {
             { data: 'election_type', name: 'election_type' },
         ]
     });
-    $("div.search-wrapper").html('<input type="search" id="search-input" placeholder="Search..." aria-controls="donators-table"><div class="search"></div>');
-    $('#search-input').keyup(function(){
+    $("div.search-wrapper").html('<span class="fa fa-search form-control-feedback col-1 p-0"></span><input type="search" id="search-input" class="search-input col-10 mx-0" placeholder="Search..." aria-controls="donators-table">');
+    $('#search-input').on("search keyup", function(){
         table.search($(this).val()).draw() ;
+    });
+    $("div.search-wrapper").click(function(){
+        $("#search-input").focus();
     });
 });
 </script>
