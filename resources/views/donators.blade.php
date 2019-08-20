@@ -98,7 +98,9 @@ $(document).ready(function() {
                     extend: 'excelHtml5', className: 'text-success', text: '<i class="fa fa-file-excel-o"></i>', titleAttr: 'Excel', exportOptions: { columns: ':visible' }  
                 },
                 { 
-                    extend: 'pdfHtml5', className: 'text-danger', text: '<i class="fa fa-file-pdf-o"></i>', titleAttr: 'PDF', exportOptions: { columns: ':visible' }  
+                    extend: 'pdfHtml5', className: 'text-danger', text: '<i class="fa fa-file-pdf-o"></i>', titleAttr: 'PDF', exportOptions: { columns: ':visible' },
+                    orientation: 'landscape',
+                    pageSize: 'LEGAL'  
                 },
                 { 
                     extend: 'print',
