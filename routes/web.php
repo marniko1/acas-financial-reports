@@ -18,11 +18,19 @@ Auth::routes(['register'=>false]);
 // Auth::routes(['verify' => true]);
 
 
-Route::get('/', [ 'as' => 'donators', 'uses' => 'DatatablesController@index']);
 
 Route::group(['middleware' => 'auth'], function() {
 
-	Route::get('/home', 'HomeController@index')->name('home');
+	Route::get('/dashboard', 'DashboardController@index')->name('dashboard');
+	Route::get('/', [ 'as' => 'donators', 'uses' => 'DatatablesController@index']);
+
+
+	Route::group(['middleware' => 'is_admin'], function() {
+
+		Route::resource('/users', 'UserController');
+		Route::post('/add_user', 'AdminController@addUser')->name('add_user');
+		// Route::put('/users', 'UserController@addUser')->name('edit_user');
+	});
 
 });
 

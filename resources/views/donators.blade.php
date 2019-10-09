@@ -31,17 +31,19 @@
                                 </tr>
                             </thead>
                             <tfoot>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>City</th>
-                                <th>Monetary</th>
-                                <th>Non-Monetary</th>
-                                <th>Report Year</th>
-                                <th>Political Subject</th>
-                                <th>Election</th>
-                                <th>Election Year</th>
-                                <th>Election Level</th>
-                                <th>Election Type</th>
+                                <tr>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>City</th>
+                                    <th>Monetary</th>
+                                    <th>Non-Monetary</th>
+                                    <th>Report Year</th>
+                                    <th>Political Subject</th>
+                                    <th>Election</th>
+                                    <th>Election Year</th>
+                                    <th>Election Level</th>
+                                    <th>Election Type</th>
+                                </tr>
                             </tfoot>
                         </table>
                     </div>
@@ -106,10 +108,45 @@ $(document).ready(function() {
                     extend: 'print',
                     text: '<i class="fa fa-print"></i>',
                     titleAttr: 'Print',
+                    customize: function(win)
+                    {
+         
+                        var last = null;
+                        var current = null;
+                        var bod = [];
+         
+                        var css = '@page { size: landscape; }',
+                            head = win.document.head || win.document.getElementsByTagName('head')[0],
+                            style = win.document.createElement('style');
+         
+                        style.type = 'text/css';
+                        style.media = 'print';
+         
+                        if (style.styleSheet)
+                        {
+                          style.styleSheet.cssText = css;
+                        }
+                        else
+                        {
+                          style.appendChild(win.document.createTextNode(css));
+                        }
+
+                        $(win.document.body)
+                            .css( 'font-size', '10pt' )
+                            //.prepend(
+                                //'<img src="http://datatables.net/media/images/logo-fade.png" style="position:absolute; top:0; left:0;" />'
+                            //);
+     
+                        $(win.document.body).find( 'table' )
+                            .addClass( 'compact' )
+                            .css( 'font-size', 'inherit' );
+         
+                        head.appendChild(style);
+                    },
                     exportOptions: { 
                         columns: ':visible', 
                         rows: function (idx, data, node) {
-                            var dt = new $.fn.dataTable.Api('#example' );
+                            var dt = new $.fn.dataTable.Api('#donators-table' );
                             var selected = dt.rows( { selected: true } ).indexes().toArray();
                            
                             if( selected.length === 0 || $.inArray(idx, selected) !== -1)
